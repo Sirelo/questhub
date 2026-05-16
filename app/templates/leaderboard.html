@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}QuestHub | Рейтинг{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="glass-panel">
+        <h1 class="display-6 fw-bold mb-3">Рейтинг исследователей</h1>
+        <p class="text-secondary">Список формируется по сумме заработанных баллов и максимальной серии активности.</p>
+        <div class="table-responsive mt-4">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Место</th>
+                        <th>Пользователь</th>
+                        <th>Баллы</th>
+                        <th>Лучшая серия</th>
+                        <th>Check-in</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in leaderboard_rows %}
+                        <tr>
+                            <td>{{ row.position }}</td>
+                            <td>{{ row.user.username }}</td>
+                            <td>{{ row.points }}</td>
+                            <td>{{ row.best_streak }}</td>
+                            <td>{{ row.checkins }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-secondary py-4">Пока нет данных для рейтинга.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

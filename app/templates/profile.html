@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}QuestHub | Профиль{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="glass-panel text-center">
+                <img
+                    class="profile-avatar mb-3"
+                    src="{{ current_user.avatar_url if '://' in current_user.avatar_url else url_for('static', filename=current_user.avatar_url) }}"
+                    alt="{{ current_user.username }}"
+                >
+                <h1 class="h3 fw-bold">{{ current_user.username }}</h1>
+                <p class="text-secondary mb-1">{{ current_user.city }}</p>
+                <p class="text-secondary">{{ current_user.bio or 'Пользователь пока не заполнил описание.' }}</p>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="glass-panel">
+                <h2 class="h4 mb-3">Редактирование профиля</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            {{ form.username.label(class="form-label") }}
+                            {{ form.username(class="form-control") }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.city.label(class="form-label") }}
+                            {{ form.city(class="form-control") }}
+                        </div>
+                        <div class="col-12">
+                            {{ form.bio.label(class="form-label") }}
+                            {{ form.bio(class="form-control", rows="4") }}
+                        </div>
+                        <div class="col-12">
+                            {{ form.avatar.label(class="form-label") }}
+                            {{ form.avatar(class="form-control") }}
+                        </div>
+                        <div class="col-12">
+                            {{ form.submit(class="btn btn-warning") }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="glass-panel mt-4">
+                <h2 class="h4 mb-3">Коллекция бейджей</h2>
+                <div class="row g-3">
+                    {% for user_badge in user_badges %}
+                        <div class="col-md-6">
+                            <div class="mini-card">
+                                <div class="display-6">{{ user_badge.badge.icon }}</div>
+                                <div class="fw-semibold">{{ user_badge.badge.title }}</div>
+                                <div class="small text-secondary">{{ user_badge.reason }}</div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-12">
+                            <div class="empty-state">Пока нет бейджей. Создайте первую экспедицию или вступите в чужую.</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

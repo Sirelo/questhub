@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}QuestHub | Главная{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+                <span class="badge text-bg-warning mb-3">Городские экспедиции и мини-челленджи</span>
+                <h1 class="display-4 fw-bold mb-3">QuestHub собирает полезные привычки, прогулки и короткие марафоны в одну ленту</h1>
+                <p class="lead text-secondary mb-4">
+                    Здесь можно придумать свою экспедицию, вступить в чужую, отмечать прогресс по дням,
+                    оставлять комментарии и следить за рейтингом участников.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a class="btn btn-warning btn-lg" href="{{ url_for('challenges.list_expeditions') }}">Смотреть экспедиции</a>
+                    {% if current_user.is_authenticated %}
+                        <a class="btn btn-outline-light btn-lg" href="{{ url_for('challenges.create_expedition') }}">Создать свою</a>
+                    {% else %}
+                        <a class="btn btn-outline-light btn-lg" href="{{ url_for('auth.register') }}">Создать аккаунт</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="hero-panel">
+                    <div class="hero-panel__top">Что есть в приложении</div>
+                    <ul class="hero-list">
+                        <li>Регистрация и личный кабинет</li>
+                        <li>Публичные и личные экспедиции</li>
+                        <li>Ежедневные отметки прогресса</li>
+                        <li>Загрузка изображений</li>
+                        <li>Комментарии и рейтинг</li>
+                        <li>REST API со статистикой</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container mt-5">
+    <div class="section-head">
+        <div>
+            <h2 class="h3 fw-bold">Популярные экспедиции</h2>
+            <p class="text-secondary mb-0">Примеры открытых маршрутов и челленджей, к которым можно присоединиться.</p>
+        </div>
+        <a class="btn btn-outline-dark" href="{{ url_for('challenges.list_expeditions') }}">Вся лента</a>
+    </div>
+    <div class="row g-4 mt-1">
+        {% for expedition in featured_expeditions %}
+            <div class="col-md-6 col-xl-4">
+                <div class="card h-100 quest-card">
+                    <img
+                        class="card-img-top quest-cover"
+                        src="{{ expedition.cover_url if '://' in expedition.cover_url else url_for('static', filename=expedition.cover_url) }}"
+                        alt="{{ expedition.title }}"
+                    >
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge text-bg-dark">{{ category_labels[expedition.category] }}</span>
+                            <span class="small text-secondary">{{ difficulty_labels[expedition.difficulty] }}</span>
+                        </div>
+                        <h3 class="h5">{{ expedition.title }}</h3>
+                        <p class="text-secondary">{{ expedition.summary }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-4">
+                        <div class="d-flex justify-content-between small text-secondary mb-3">
+                            <span>{{ expedition.city }}</span>
+                            <span>{{ expedition.participants_count }} участников</span>
+                        </div>
+                        <a class="btn btn-warning w-100" href="{{ url_for('challenges.expedition_detail', expedition_id=expedition.id) }}">Открыть</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <div class="empty-state">В ленте пока пусто.</div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="container mt-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="info-card">
+                <h3 class="h5">Идея</h3>
+                <p class="mb-0 text-secondary">
+                    Экспедиция — это маленькая тема на несколько дней: прогулки, учеба, фото, творчество или экопривычки.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="info-card">
+                <h3 class="h5">Механика</h3>
+                <p class="mb-0 text-secondary">
+                    Участники присоединяются к маршруту, оставляют дневниковые отметки и накапливают баллы за регулярность.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="info-card">
+                <h3 class="h5">Общая лента</h3>
+                <p class="mb-0 text-secondary">
+                    В любой момент можно открыть чужие идеи, посмотреть обсуждение и выбрать маршрут под свой темп.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

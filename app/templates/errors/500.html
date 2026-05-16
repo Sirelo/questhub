@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}500{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="error-shell">
+        <h1 class="display-4 fw-bold">500</h1>
+        <p class="lead text-secondary">На сервере произошла ошибка. Проверьте логи и повторите попытку.</p>
+        <a class="btn btn-warning" href="{{ url_for('main.index') }}">На главную</a>
+    </div>
+</section>
+{% endblock %}

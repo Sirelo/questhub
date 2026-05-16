@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}QuestHub | {{ title }}{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="glass-panel">
+        <h1 class="display-6 fw-bold mb-4">{{ title }}</h1>
+        <form method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="row g-3">
+                <div class="col-md-8">
+                    {{ form.title.label(class="form-label") }}
+                    {{ form.title(class="form-control") }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.city.label(class="form-label") }}
+                    {{ form.city(class="form-control") }}
+                </div>
+                <div class="col-12">
+                    {{ form.summary.label(class="form-label") }}
+                    {{ form.summary(class="form-control") }}
+                </div>
+                <div class="col-12">
+                    {{ form.description.label(class="form-label") }}
+                    {{ form.description(class="form-control", rows="7") }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.category.label(class="form-label") }}
+                    {{ form.category(class="form-select") }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.difficulty.label(class="form-label") }}
+                    {{ form.difficulty(class="form-select") }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.duration_days.label(class="form-label") }}
+                    {{ form.duration_days(class="form-control") }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.target_points.label(class="form-label") }}
+                    {{ form.target_points(class="form-control") }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.cover.label(class="form-label") }}
+                    {{ form.cover(class="form-control") }}
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                    <div class="form-check mt-4">
+                        {{ form.is_public(class="form-check-input") }}
+                        {{ form.is_public.label(class="form-check-label") }}
+                    </div>
+                </div>
+                <div class="col-12">
+                    {{ form.submit(class="btn btn-warning") }}
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
